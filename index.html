@@ -70,6 +70,13 @@
             }
             else if (clicked == 1)
             {
+                //while (map[savei][savej].x != map[i][j].x &&
+                //map[savei][savej].y != map[i][y].y)
+                    //{
+                        //if (i < savei)
+                            //}
+                map[savei][savej].body.velocity.x = 200;
+                map[i][j].body.velocity.x = -200;
                 map[savei][savej].alpha = 1;
                 clicked = 0;
                 savei = i;
@@ -85,14 +92,28 @@
             game.debug.renderInputInfo(410, 32);
             var i = parseInt(game.input.x / 20);
             var j = parseInt(game.input.y / 25);
-            if (i > 0 && i < col && j > 0 && j < line)
+            if (i >= 0 && i < col && j >= 0 && j < line)
             {
                 game.debug.renderText("casex", 410, 132);
                 game.debug.renderText(i, 490, 132);
                 game.debug.renderText("casey", 410, 150);
                 game.debug.renderText(i, 490, 150);
-                game.debug.renderText("sprite", 410, 168);
+                game.debug.renderText("sprite", 410, 168); 
                 game.debug.renderText(map[i][j].key, 490, 168);
+
+                game.debug.renderText("map[i][j].x", 410, 190);
+                game.debug.renderText(map[i][j].x, 530, 190);
+                game.debug.renderText("map[i][j].y", 410, 210);
+                game.debug.renderText(map[i][j].y, 530, 210);
+
+                if (savei >= 0 && savei < col && savej >= 0 && savej < line)
+                {
+                    game.debug.renderText("map[savei][savej].x", 410, 230);
+                    game.debug.renderText(map[savei][savej].x, 610, 230);
+                    game.debug.renderText("map[savei][savej].y", 410, 250);
+                    game.debug.renderText(map[savei][savej].y, 610, 250);
+                
+                }
             }
         }
     };

@@ -1,0 +1,79 @@
+<!doctype html>
+<html> 
+    <head>
+        <meta charset="UTF-8" />
+        <title>Melody Smash</title>
+        <script src="phaser/build/phaser.min.js"></script>
+    </head>
+    <body>
+
+    <script type="text/javascript">
+
+    window.onload = function() {
+
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+        var map;
+        var clicked;
+        var savei = -1;
+        var savej = -1;
+        var timer = 0;
+
+        function preload () {
+            this.game.stage.scale.pageAlignHorizontally = true;
+            this.game.stage.scale.pageAlignVertically = true;
+            this.game.stage.scale.refresh();
+            game.load.image('note', 'note.png');
+            game.load.image('notered', 'notered.png');
+        }
+
+        function create () {
+            var width = 20;
+            var height = 25;
+            var col = 20;
+            var line = 20;
+            clicked = 0;
+
+            map = new Array(line);
+            
+            for (i = 0; i < line; i++)
+            {
+                map[i] = new Array(col);
+                for (j = 0; j < col; j++)
+                {
+                    //map[i][j] = game.add.sprite(i * width, j * height, 'note');
+                    //map[i][j] = game.add.sprite(i * width, j * height, 'notered');
+                    map[i][j].scale.setTo(0.1, 0.1);
+                    map[i][j].inputEnabled = true;
+                }
+            }
+        }
+
+        function update(){
+            if (game.input.mousePointer.isDown && game.time.now > timer)
+            {
+                var i = parseInt(game.input.x / 20);
+                var j = parseInt(game.input.y / 25);
+                if (clicked == 0)
+                {
+                    savei = i;
+                    savej = j;
+                    map[i][j].alpha = 0.1;
+                    clicked = 1;
+                }
+                else if (clicked == 1)
+                {
+                    map[savei][savej].alpha = 1;
+                    clicked = 0;
+                    savei = i;
+                    savej = j;
+                }
+                timer = game.time.now + 200
+            }
+        }
+    };
+
+
+    </script>
+
+    </body>
+</html>

@@ -1,0 +1,106 @@
+/* Melody smash
+	Ver1.0
+	faress_a
+	heckma_g
+	rerot_p
+*/
+
+@font-face {
+ font-family: Gretoon;
+ src: url("font/GretoonHighlight.eot") /* EOT file for IE */
+}
+@font-face {
+ font-family: Gretoon;
+ src: url("font/GretoonHighlight.ttf") /* TTF file for CSS3 browsers */
+}
+
+p{
+	text-align: center;
+}
+
+h3{
+	text-align: center;
+}
+
+
+#navbar-test{
+	margin-left: 100px;
+	font-family: Arial, Sans-serif;
+	font-size: 17px;
+	height: 50px;
+}
+
+#navbar-login{
+	margin-right: 300px;
+}
+
+#test{
+	margin-top: 100px;
+	margin-left: 100px;
+}
+
+#logo{
+/*background: url('../img/logo.png') no-repeat;*/
+/*width: 400px;
+height: 100px;
+margin-top: -20px;  */
+font-family: 'Gretoon', Arial;
+color: red;
+font-size: 25px;
+text-indent: 0px;
+}
+
+#btn-login{
+	margin-top: 20px;
+	background-color: #3B5998;
+	color: white;
+}
+
+#first{
+	margin-top: 100px;
+	background-color: ;
+	text-align: justify;
+}
+
+#slid{
+	margin-top: 100px;
+}
+
+#equipe{
+	margin-top: 60px;
+}
+
+#equipe-text{
+	font-size: 20px;
+	font-family: Arial;
+	font-weight: bold;
+
+}
+
+.footer{
+	margin-top: 30px;
+}
+
+.centered img{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.centered{
+	font-size: 10px;
+}
+
+/*Game page*/
+#game{
+	margin-top: 100px;
+}
+
+
+/*Contact page*/
+
+#contact{
+	margin-top: 100px;
+	margin-right: auto;
+	margin-left: auto;
+}

@@ -1,0 +1,110 @@
+<html>
+<head>
+<title>Melody Smash</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <LINK rel="stylesheet" type="text/css" href="css/style.css">
+    <LINK rel="stylesheet" type="text/css" href="css/bootstrap.css"></LINK>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+</head>
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="navbar-header" >
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+	<a class="navbar-brand" id="logo" href="index.html">Melody Smash</a>
+</div>
+ <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+	<ul class="nav navbar-nav">
+		   <li><a href="index.html">Accueil</a></li>
+		   <li class="active"><a href="jouer.html">Jouer</a></li>
+		   <li><a href="contact.html">Contact</a></li>
+		</ul>
+	</div>
+</nav>
+
+
+<body>
+<div class="container">
+<div class="row">
+	<div class="col-md-8 col-md-offset-2" id="game"></div>
+</div>
+
+
+<hr>
+<footer class="footer">
+<div class="centered">
+<a href="http://www.epitech.eu"><img src="img/epitech.jpg" alt="epitech logo"></a>
+<p>PFA-2014</p>
+<p>Tous droits réservés <span class="glyphicon glyphicon-copyright-mark"></span> 2014 <a href="melodysmash.fr">melodysmash.fr</a></p>
+</div>
+</footer>
+</div><!--end container-->
+
+</body>
+<script src="../lib/build/phaser.js"></script>
+<script src="../lib/build/phaser.min.js"></script>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+
+<script type="text/javascript">
+ window.onload = function() {
+
+var game = new Phaser.Game(700, 500, Phaser.CANVAS, 'game', { preload: preload, create: create });
+
+function preload() {
+
+    game.load.audio('boom', ['sounds/boom.mp3', 'sounds/boom.ogg']);
+    game.load.spritesheet('melodysmash', 'img/icon/menu/logo.png', 60.72,66);
+    game.load.spritesheet('buttonjouer', 'img/icon/menu/sprite-jouer.png', 270, 63);
+    game.load.spritesheet('buttonoptions', 'img/icon/menu/sprite-options.png', 270, 63);
+    game.load.image('background','img/icon/menu/menu.png');
+
+}
+
+var logo;
+var buttonjouer;
+var buttonoptions;
+var background;
+var music;
+
+function create() {
+
+    game.stage.backgroundColor = 'red';
+
+    music = game.add.audio('boom',1,true);
+    music.play('',0,1,true);
+    background = game.add.tileSprite(0, 0, 700, 500, 'background');
+
+    for (var i = 0; i < 11; i++){ 
+      logo = game.add.sprite(50 + 59 * i, -100, 'melodysmash', i);
+      logo.anchor.setTo(0.5,0.5);
+      game.add.tween(logo).to({y: 100}, 1500, Phaser.Easing.Bounce.Out, true, 1000 + 400 * i, false);
+
+    }
+
+    buttonjouer = game.add.button(game.world.centerX -130, 220, 'buttonjouer', actionOnClickJouer, this, 2, 1, 0);
+    buttonoptions = game.add.button(game.world.centerX -130, 320, 'buttonoptions', actionOnClickOptions, this, 2, 1, 0);
+
+}
+
+function actionOnClickJouer () {
+   //background.visible =! background.visible;
+  //alert("Bienvenue dans le niveau " + pos);
+  //var temp = '../index.html';
+    //  window.location.href = temp;// + new Date().getMilliseconds();
+  }
+
+function actionOnClickOptions () {
+ background.visible =! background.visible;
+}
+
+}
+       
+</script>
+
+</html>

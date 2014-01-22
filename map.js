@@ -113,9 +113,12 @@ window.onload = function()
 	if (iter == speed)
 	{
 	    pos = return_pos(mummy.x, mummy.y);
-	    temp = return_elem(pos).url + "?ts=";
-	    alert("Bienvenue dans le niveau " + pos);
-	    window.location.href = temp + new Date().getMilliseconds();
+	    if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER))
+	    {
+		temp = return_elem(pos).url + "?ts=";
+		alert("Bienvenue dans le niveau " + pos);
+		window.location.href = temp + new Date().getMilliseconds();
+	    }
 	}
 	if (iter < speed && start == true)
 	{

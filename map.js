@@ -112,11 +112,9 @@ window.onload = function()
     {
 	if (iter == speed)
 	{
-	    //alert("toto");
 	    pos = return_pos(mummy.x, mummy.y);
-	    //window.location.href="toto";
 	    temp = return_elem(pos).url + "?ts=";
-	    //alert(temp);
+	    alert("Bienvenue dans le niveau " + pos);
 	    window.location.href = temp + new Date().getMilliseconds();
 	}
 	if (iter < speed && start == true)

@@ -50,61 +50,6 @@
 <script src="../lib/build/phaser.min.js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-
-<script type="text/javascript">
- window.onload = function() {
-
-var game = new Phaser.Game(700, 500, Phaser.CANVAS, 'game', { preload: preload, create: create });
-
-function preload() {
-
-    game.load.audio('boom', ['sounds/boom.mp3', 'sounds/boom.ogg']);
-    game.load.spritesheet('melodysmash', 'img/icon/menu/logo.png', 60.72,66);
-    game.load.spritesheet('buttonjouer', 'img/icon/menu/sprite-jouer.png', 270, 63);
-    game.load.spritesheet('buttonoptions', 'img/icon/menu/sprite-options.png', 270, 63);
-    game.load.image('background','img/icon/menu/menu.png');
-
-}
-
-var logo;
-var buttonjouer;
-var buttonoptions;
-var background;
-var music;
-
-function create() {
-
-    game.stage.backgroundColor = 'red';
-
-    music = game.add.audio('boom',1,true);
-    music.play('',0,1,true);
-    background = game.add.tileSprite(0, 0, 700, 500, 'background');
-
-    for (var i = 0; i < 11; i++){ 
-      logo = game.add.sprite(50 + 59 * i, -100, 'melodysmash', i);
-      logo.anchor.setTo(0.5,0.5);
-      game.add.tween(logo).to({y: 100}, 1500, Phaser.Easing.Bounce.Out, true, 1000 + 400 * i, false);
-
-    }
-
-    buttonjouer = game.add.button(game.world.centerX -130, 220, 'buttonjouer', actionOnClickJouer, this, 2, 1, 0);
-    buttonoptions = game.add.button(game.world.centerX -130, 320, 'buttonoptions', actionOnClickOptions, this, 2, 1, 0);
-
-}
-
-function actionOnClickJouer () {
-   //background.visible =! background.visible;
-  //alert("Bienvenue dans le niveau " + pos);
-  //var temp = '../index.html';
-    //  window.location.href = temp;// + new Date().getMilliseconds();
-  }
-
-function actionOnClickOptions () {
- background.visible =! background.visible;
-}
-
-}
-       
-</script>
+<script type="text/javascript" src="play.js"></script>
 
 </html>

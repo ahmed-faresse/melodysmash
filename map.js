@@ -1,44 +1,18 @@
 window.onload = function() 
 {
+    var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update });
+       
 
-    var p1 = 
-	{ 
-	    name:"p1",
-	    x:44,
-	    y:54,
-	    pos:1,
-	    url:"game01.html"
-	}
-    
-    var p2 = 
-	{ 
-	    name:"p2",
-	    x:269,
-	    y:286,
-	    pos:2,
-	    url:"game01.html"
-	}
-
-    var p3 = 
-	{ 
-	    name:"p3",
-	    x:449,
-	    y:286,
-	    pos:3,
-	    url:"game01.html"
-	}
-    
-    var p4 = 
-	{ 
-	    name:"p4",
-	    x:635,
-	    y:158,
-	    pos:4,
-	    url:"game01.html"
-	}
-
-    
-    var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
+    var level = function(name, x, y, pos, url, score) 
+    {
+	this.name = name;
+	this.x = x;
+	this.y = y;
+	this.pos = pos;
+	this.url = url;
+	this.score = 0;
+    };
+    var beginmap = false;
     var marge = 0;
     var begin = { x:44, y:54 };
     var texture_group;
@@ -51,6 +25,15 @@ window.onload = function()
     var all_target = [p1, p2, p3, p4];
     var begin = { x:44, y:54 };
     pos = 1;
+    var logo;
+    var buttonjouer;
+    var buttonoptions;
+    var background;
+    var music;
+    var p1 = new level("p1", 44, 54, 1, "game01.html");
+    var p2 = new level("p2", 269, 286, 2, "game01.html");
+    var p3 = new level("p3", 449, 286, 3, "game01.html");
+    var p4 = new level("p4", 635, 158, 4, "game01.html");
 
     function return_elem(pos)
     {

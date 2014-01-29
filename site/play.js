@@ -1,50 +1,29 @@
 window.onload = function() 
 {
     var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update });
-       
-    var p1 = 
-	{ 
-	    name:"p1",
-	    x:44,
-	    y:54,
-	    pos:1,
-	    url:"../game01.html"
-	}
-    
-    var p2 = 
-	{ 
-	    name:"p2",
-	    x:269,
-	    y:286,
-	    pos:2,
-	    url:"../game01.html"
-	}
-
-    var p3 = 
-	{ 
-	    name:"p3",
-	    x:449,
-	    y:286,
-	    pos:3,
-	    url:"../game01.html"
-	}
-    
-    var p4 = 
-	{ 
-	    name:"p4",
-	    x:635,
-	    y:158,
-	    pos:4,
-	    url:"../game01.html"
-	}
-
+    var level = function(name, x, y, pos, url, score) 
+    {
+	this.name = name;
+	this.x = x;
+	this.y = y;
+	this.pos = pos;
+	this.url = url;
+	this.score = return_score(name, pos);
+    };
+ 
+    var p1 = new level("p1", 44, 54, 1, "../game01.html");
+    var p2 = new level("p2", 269, 286, 2, "../game01.html");
+    var p3 = new level("p3", 449, 286, 3, "../game01.html");
+    var p4 = new level("p4", 635, 158, 4, "../game01.html");
+    var beginmap = false;
     var marge = 0;
     var begin = { x:44, y:54 };
     var texture_group;
     var marge = { x:20, y:20};
-    var target = { x:100, y:100};
+    var marge_lvl = { x:25, y:21 };
+    var target = { x:0, y:0 };
     var mummy;
-    speed = 200;
+    speed = 100;
     iter = 0;
     start = false;
     var all_target = [p1, p2, p3, p4];
@@ -56,8 +35,15 @@ window.onload = function()
     var background;
     var music;
 
+    function return_score(name, pos)
+    {
+	return 0;
+    }
+
     function preload() 
     {
+	game.load.image('lvlnotok', '../assets/lvlnotok.png');
+	game.load.image('lvlok', '../assets/lvlok.png');
 	game.load.image('map', '../assets/map.png');
 	game.load.audio('boom', ['sounds/boom.mp3', 'sounds/boom.ogg']);
 	game.load.spritesheet('melodysmash', 'img/icon/menu/logo.png', 60.72,66);
@@ -85,16 +71,37 @@ window.onload = function()
 	texture_group = game.add.group();   
     }
     
+    function load_map()
+    {
+	for (lvl in all_target)
+	{
+	    if (all_target[lvl].score == 0)
+	    {
+		texture_group = game.add.group();
+		texture_group.create((all_target[lvl].x) - marge_lvl.x, (all_target[lvl].y) - marge_lvl.y, 'lvlnotok');
+	    }
+	    else
+	    {
+		texture_group = game.add.group();
+		texture_group.create(all_target[lvl].x - marge_lvl.x, (all_target[lvl].y) - marge_lvl.y, 'lvlok');
+	    }
+	}	
+    }
+    
     function actionOnClickJouer () 
     {
+	beginmap = true;
+	//alert("clic");
 	music.pause();
 	texture_group = game.add.group();
 	texture_group.create(0, 0, 'map');
+	load_map();
 	mummy = game.add.sprite((begin.x), (begin.y), 'mummy');
 	mummy.animations.add('play');
 	mummy.animations.play('play', 30, true);
 	game.input.onDown.add(detect, this);
 	move_pos();
+
     }
     
     function actionOnClickOptions () 
@@ -160,14 +167,17 @@ window.onload = function()
      
     function update()
     {
-	if (iter == speed)
+	if (iter == speed || beginmap == true)
 	{
 	    pos = return_pos(mummy.x, mummy.y);
 	    if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER))
 	    {
-		temp = return_elem(pos).url + "?ts=";
-		alert("Bienvenue dans le niveau " + pos);
-		window.location.href = temp + new Date().getMilliseconds();
+		temp = return_elem(pos);
+		if (temp != null)
+		{
+		    alert("Bienvenue dans le niveau " + pos);
+		    window.location.href = (temp.url + "?ts=") + new Date().getMilliseconds();
+		}
 	    }
 	}
 	if (iter < speed && start == true)
@@ -198,19 +208,4 @@ window.onload = function()
 	    }
 	}
     }
-
-    function is_moving()
-    {
-	if (iter != 0 && start == true && iter < speed)
-	{
-	    mummy.animations.play('play', 30, true);
-	    return true;					 
-	}
-	else
-	{
-	    mummy.animations.add('stop');
-	    return false;					 
-	}
-    }
-
 }

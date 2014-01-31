@@ -56,10 +56,9 @@ window.onload = function()
     var background;
     var music;
 
-    /* Var button level*/
-    var button1;
-    /**/
 
+
+    
     function preload() 
     {
 	game.load.image('map', 'img/icon/menu/map.png');
@@ -82,7 +81,8 @@ window.onload = function()
 	game.load.spritesheet('button8', 'img/icon/menu/sprite-button8.png', 60, 55);
 	game.load.spritesheet('button9', 'img/icon/menu/sprite-button9.png', 60, 55);
 	game.load.spritesheet('button10', 'img/icon/menu/sprite-button10.png', 60, 55);
-
+	game.load.spritesheet('bonus1', 'img/icon/menu/sprite-bonus.png', 60, 55);
+	game.load.spritesheet('bonus2', 'img/icon/menu/sprite-bonus.png', 60, 55);
 	/**/
 	/*Animations world*/
 	game.load.spritesheet('balls', 'img/notes/sprites-notebubbles.png', 13,17);
@@ -119,16 +119,19 @@ window.onload = function()
 	move_pos();
 
 	/*level button*/
-    button1 = game.add.button(20, 300, 'button1', actionOnClicklevel1, this, 2,1,0);
-    button2 = game.add.button(80, 340, 'button2', actionOnClicklevel2, this, 2,1,0);
-    button3 = game.add.button(155, 365, 'button3', actionOnClicklevel3, this, 2,1,0);
-    button4 = game.add.button(230, 385, 'button4', actionOnClicklevel4, this, 2,1,0);
-    button5 = game.add.button(305, 400, 'button5', actionOnClicklevel5, this, 2,1,0);
-  	button6 = game.add.button(380, 410, 'button6', actionOnClicklevel6, this, 2,1,0);
-    button7 = game.add.button(460, 420, 'button7', actionOnClicklevel7, this, 2,1,0);
-    button8 = game.add.button(535, 420, 'button8', actionOnClicklevel8, this, 2,1,0);
-    button9 = game.add.button(610, 400, 'button9', actionOnClicklevel9, this, 2,1,0);
-	button10 = game.add.button(680, 370, 'button10', actionOnClicklevel10, this, 2,1,0);
+     button1 = game.add.button(20, 300, 'button1', actionOnClicklevel1, this, 2,1,0);
+     button2 = game.add.button(80, 340, 'button2', actionOnClicklevel2, this, 2,1,0);
+     button3 = game.add.button(155, 365, 'button3', actionOnClicklevel3, this, 2,1,0);
+     button4 = game.add.button(230, 385, 'button4', actionOnClicklevel4, this, 2,1,0);
+     button5 = game.add.button(305, 400, 'button5', actionOnClicklevel5, this, 2,1,0);
+  	 button6 = game.add.button(380, 410, 'button6', actionOnClicklevel6, this, 2,1,0);
+     button7 = game.add.button(460, 420, 'button7', actionOnClicklevel7, this, 2,1,0);
+     button8 = game.add.button(535, 420, 'button8', actionOnClicklevel8, this, 2,1,0);
+     button9 = game.add.button(610, 400, 'button9', actionOnClicklevel9, this, 2,1,0);
+	 button10 = game.add.button(680, 370, 'button10', actionOnClicklevel10, this, 2,1,0);
+	 bonus1 = game.add.button(305, 320, 'bonus1', actionOnClickbonus1, this, 2,1,0);
+	 bonus2 = game.add.button(535, 340, 'bonus2', actionOnClickbonus2, this, 2,1,0);
+
 	/*/
     
     /*animation notes*/
@@ -298,6 +301,12 @@ window.onload = function()
 
     }
      function actionOnClicklevel10() {
+
+    }
+     function actionOnClickbonus1() {
+
+    }
+      function actionOnClickbonus2() {
 
     }
 

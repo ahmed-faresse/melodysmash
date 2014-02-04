@@ -76,7 +76,6 @@ window.onload = function()
     {
 	for (var i = all_target.length - 1; i >= 0; i--) 
 	{
-	    alert(i);
 	    if (all_target[i].score > 0)
 	    {
 		begin = { x:all_target[i].x, y:all_target[i].y };

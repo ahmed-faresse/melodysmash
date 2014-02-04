@@ -26,11 +26,8 @@ window.onload = function()
     var b1 = new level("b1", 305, 320, 11, "../game01.html");
     var b2 = new level("b2", 535, 340, 12, "../game01.html");
     var beginmap = false;
-    var marge = 10;
-    var begin = { x:20, y:300 };
     var texture_group;
     var marge = { x:30, y:27};
-    var target = { x:80, y:340};
     var mummy;
     var all_target = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, b1, b2];
     var logo;
@@ -38,10 +35,13 @@ window.onload = function()
     var buttoncredits;
     var background;
     var music;
-    speed = 100;
+    speed = 50;
     iter = 0;
     start = false;
     pos = 1;
+    var begin; 
+    var target;
+    assign_first_pos();
     
     function preload() 
     {
@@ -70,9 +70,23 @@ window.onload = function()
 	/**/
 	/*Animations world*/
 	game.load.spritesheet('balls', 'img/notes/sprites-notebubbles.png', 13,17);
-
     }
 
+    function assign_first_pos()
+    {
+	for (var i = all_target.length - 1; i >= 0; i--) 
+	{
+	    alert(i);
+	    if (all_target[i].score > 0)
+	    {
+		begin = { x:all_target[i].x, y:all_target[i].y };
+		target = { x:80, y:340 };
+		return;
+	    }
+	    begin = { x:20, y:300 };
+	    target = { x:80, y:340 };
+	}
+    }
     
     function create() 
     {
@@ -88,7 +102,6 @@ window.onload = function()
 	buttoncredits = game.add.button(game.world.centerX -130, 350, 'buttoncredits', actionOnClickCredits, this, 2, 1, 0);
     
     }
-    
    
 
     function actionOnClickJouer () 
@@ -96,7 +109,6 @@ window.onload = function()
 	beginmap = true;
 	texture_group = game.add.group();
 	texture_group.create(0, 0, 'map');
-	game.input.onDown.add(detect, this);
 
 	/*level button*/
 	button1 = game.add.button(20, 300, 'button1', actionOnClicklevel1, this, 2,1,0);
@@ -188,7 +200,6 @@ window.onload = function()
      
     function match_all_target(pos_x, pos_y)
     {
-	pouet = true;
 	for (var i = 0; i < all_target.length; i++) 
 	{
 	    //alert("pos_x = " + pos_x + " | pos_y = " + pos_y);
@@ -205,9 +216,9 @@ window.onload = function()
 	var xmax = target_x + marge.x;
 	var ymin = target_y - marge.y;
 	var ymax = target_y + marge.y;
-	if (pos_x > xmin && pos_x < xmax && pos_y > ymin && pos_y < ymax)
+	if (pos_x >= xmin && pos_x <= xmax && pos_y >= ymin && pos_y <= ymax)
 	    return true;
-	return false;						   
+	return false;
     }
     
     function update()
@@ -234,10 +245,6 @@ window.onload = function()
     }
     
     function render() 
-    {
-    }
-    
-    function detect()
     {
     }
     

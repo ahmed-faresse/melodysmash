@@ -1,4 +1,4 @@
-/* roue de la fortune */
+/* roue de la fortune - Bonus 2 */
 
 window.onload = function() 
 {
@@ -9,7 +9,6 @@ window.onload = function()
     var is_launch = false;
     var soundring;
 
-    /* Load assets for the game */
     function preload () 
     {
 	game.load.spritesheet('bot', 'assets/ring_final.png', 287, 286, 3);
@@ -19,6 +18,9 @@ window.onload = function()
 	game.load.image('ring1','assets/ring1.png');
 	game.load.image('ring2','assets/ring2.png');
 	game.load.image('ring3','assets/ring3.png');
+	game.load.image('rewardlose','assets/rewardlose.png');
+	game.load.image('rewardbomb','assets/rewardbomb.png');
+	game.load.image('rewardpoint','assets/rewardpoint.png');
 	game.load.image('fleche','assets/fleche.png');
 
         this.game.stage.scale.pageAlignHorizontally = true;
@@ -50,6 +52,24 @@ window.onload = function()
 	    is_launch = true;
 	}
     }
+
+    function ring_red()
+    {
+	ring1 = game.add.sprite(400, 250, 'ring1');
+	reward = game.add.sprite(0, 250, 'rewardlose');
+    }
+
+    function ring_yellow()
+    {
+	ring2 = game.add.sprite(400, 250, 'ring2');
+	reward = game.add.sprite(0, 250, 'rewardbomb');
+    }
+
+    function ring_green()
+    {
+	ring3 = game.add.sprite(400, 250, 'ring3');
+	reward = game.add.sprite(0, 250, 'rewardpoint');
+    }
     
     function update()
     {
@@ -57,15 +77,14 @@ window.onload = function()
 	    number--;
 	if (number == 0)
 	{
-	    var randomnumber = Math.floor(Math.random() * 3);
+	    var randomnumber = Math.floor(Math.random() * 50);
 	    ring.animations.add('stop');
-	    //alert(randomnumber);
-	    if (randomnumber == 0)
-		ring1 = game.add.sprite(400, 250, 'ring1');
-	    else if (randomnumber == 1)
-		ring2 = game.add.sprite(400, 250, 'ring2');
+	    if ((randomnumber % 2) == 0)
+		ring_red();
+	    else if ((randomnumber % 3) == 1)
+		ring_yellow();
 	    else
-		ring3 = game.add.sprite(400, 250, 'ring3');
+		ring_green();
             texture_group = game.add.group();
 	    soundring.stop();
 	    number = -1;

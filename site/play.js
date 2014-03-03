@@ -24,7 +24,7 @@ window.onload = function()
     var p9 = new level("p9", 610, 400, 9, "game01.html");
     var p10 = new level("p10", 680, 370, 10, "game01.html");
     var b1 = new level("b1", 305, 320, 11, "game01.html");
-    var b2 = new level("b2", 535, 340, 12, "game01.html");
+    var b2 = new level("b2", 535, 340, 12, "ring.html");
     var beginmap = false;
     var texture_group;
     var marge = { x:30, y:27};

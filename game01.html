@@ -108,8 +108,6 @@
         function move_down_line(i, j){
            var piece = map[i][j].key;
            var cp_i = i;
-           var cp_j = j;
-           var nbAligned = 1;
 
            while (i >= 0 && map[i][j] != "undefined" && map[i][j].key == piece)
                i--;
@@ -121,91 +119,28 @@
                    map[i][j].kill();
                    map[i][j] = "undefined";
                }
-               cp_j = j;
-               while (j + 1 < col && map[i][j + 1] == "undefined")
-               {
-                   j++;
-                   nbAligned++;
-               }
-               j = cp_j;
-               while (j - 1 >= 0 && map[i][j - 1] == "undefined")
-               {
-                   j--;
-                   nbAligned++;
-               }
-               if (j - 1 >= 0)
-                   obj_to_move.push(i, j - 1, nbAligned);
                i++;
            }
         }
         
          /* Move a column down when column blocks are destroyed */
         function move_down_col(i, j){
-            var piece = map[i][j].key;
-            var nbAligned = 1;
-            var cp_j = j + 1;
-            var passed = 0;
+           var piece = map[i][j].key;
+           var cp_j = j;
 
-            while (cp_j < col && passed != 2)
-            {
-                if (map[i][cp_j] != "undefined"  && map[i][cp_j].key == piece)
-                {
-                    if (passed == 0)
-                    {
-                        map[i][cp_j].kill();
-                        map[i][cp_j] = "undefined";
-                        nbAligned++;
-                    }
-                    else
-                        passed = 2;
-                }
-                else if (map[i][cp_j] == "undefined")
-                {
-                    if (passed == 0 || passed == 1)
-                    {
-                        nbAligned++;
-                        passed = 1;
-                    }
-                }
-                else
-                    passed = 2;
-                cp_j++;
-            }
-            j -= 1;
-            passed = 0;
-            while (j >= 0 && passed != 2)
-            {
-                if (map[i][j] != "undefined" && map[i][j].key == piece)
-                {
-                    if (passed == 0)
-                    {
-                        map[i][j].kill();
-                        map[i][j] = "undefined";
-                        nbAligned++;
-                    }
-                    else
-                    {
-                        passed = 2;
-                        cp_j = j;
-                    }
-                }
-                else if (map[i][j] == "undefined")
-                {
-                    if (passed == 0 || passed == 1)
-                    {
-                        nbAligned++;
-                        passed = 1;
-                    }
-                }
-                else
-                {
-                    passed = 2;
-                    cp_j = j;
-                }
-                j--;
-            }
-            if (cp_j >= 0)
-                obj_to_move.push(i, cp_j, nbAligned);
+           while (j >= 0 && map[i][j] != "undefined" && map[i][j].key == piece)
+               j--;
+           j++;
+           while (j < col && map[i][j] != "undefined" && map[i][j].key == piece)
+           {
+               if (cp_j != j)
+               {
+                   map[i][j].kill();
+                   map[i][j] = "undefined";
+               }
+               j++;
+           }
+
         }
 
         /* Destroy combination of three or more identical icons */
@@ -249,7 +184,6 @@
                 map[savei][savej].kill();
                 map[savei][savej] = "undefined";
             } 
-            epur_tab();
 
             while (i < line)
             {
@@ -269,27 +203,6 @@
                 return (1);
         }
 
-        function epur_tab()
-        {
-            var i = 0;
-            while (i < obj_to_move.length)
-            {
-                var j = i + 3;
-                while (j < obj_to_move.length)
-                {
-                    if (obj_to_move[i] == obj_to_move[j]
-                        && obj_to_move[i + 1] == obj_to_move[j + 1])
-                    {
-                        if (obj_to_move[i + 2] > obj_to_move[j + 2])
-                          obj_to_move.splice(j, 3);
-                        else
-                          obj_to_move.splice(i, 3);
-                    }
-                    j += 3;
-                }
-                i += 3;
-            }
-        }
         /* Swap two elements if it's possible */
         function swap(i, j, oldi, oldj){
             var tmp;
@@ -352,6 +265,7 @@
 
         var sens = 1;
 
+        /* Check if there is chain combination to destroy */
         function chain()
         {
             var column = 0;
@@ -375,6 +289,80 @@
                 lin += 1;
             }
             return (destroyed);
+        }
+
+        /* Make the objects falling down*/
+        function move_objects()
+        {
+           var move = false;
+           var i = line - 1;
+           var j;
+           var k;
+
+           while (i >= 0)
+           {
+               j = col - 1;
+               while (j >= 0)
+               {
+                   if (map[i][j] == "undefined")
+                   {
+                       k = j;
+                       while (k >= 0)
+                       {
+                           if (map[i][k] != "undefined")
+                           {
+                               move = true;
+                               break;
+                           }
+                           k--;
+                       }
+                   }
+                   if (map[i][j] == "undefined" && map[i][j + 1] != "undefined")
+                   {
+                       k = j - 1;
+                       while (k >= 0)
+                       {
+                           if (map[i][k] != "undefined")
+                               {
+                                   map[i][k].y += 4;
+                                   if (Math.floor(map[i][k].y / height) == k + 1)
+                                   {
+                                       map[i][k + 1] = map[i][k];
+                                       map[i][k + 1].y = (k + 1) * height;
+                                       map[i][k] = "undefined";
+                                   }
+                               }
+                           k--;
+                       }
+                   }
+                   j--;
+               }
+               i--;
+           }
+           return (move);
+        }
+
+        /* re generate objects when some are destroyed */
+        function generate_new_obj()
+        {
+            var i = 0;
+            var j;
+
+            while (i < line)
+            {
+                j = 0;
+                if (map[i][j] == "undefined")
+                {
+                    while (j < col && map[i][j] == "undefined")
+                    {
+                        map[i][j] = game.add.sprite(i * width, j * height, texture_group.getRandom().key);
+                        map[i][j].scale.setTo(0.1, 0.1);
+                        map[i][j].inputEnabled = true;
+                        j++;
+                    }
+                }
+                i++;
+            }
         }
 
         function update(){
@@ -415,56 +403,15 @@
            }
            else if (is_moving == "fall")
            {
-               var i = 0;
-               console.log(obj_to_move);
-               while (i < obj_to_move.length)
+               if (move_objects() == false)
                {
-                  var tmp = obj_to_move[i + 1];
-                   if (map[obj_to_move[i]][tmp] != "undefined"
-                       && map[obj_to_move[i]][tmp].y <
-                       (tmp + obj_to_move[i + 2]) * height)
-                       while (tmp >= 0 && map[obj_to_move[i]][tmp] != "undefined")
-                       {
-                           map[obj_to_move[i]][tmp].y += 4;
-                           tmp--;
-                       }
-                   else
-                   {
-                      while (tmp >= 0 && map[obj_to_move[i]][tmp] != "undefined")
-                       {
-                           map[obj_to_move[i]][tmp].y = (tmp + obj_to_move[i + 2]) * height;
-                           map[obj_to_move[i]][tmp + obj_to_move[i + 2]] = map[obj_to_move[i]][tmp];
-                           map[obj_to_move[i]][tmp] = "undefined";
-                           tmp--;
-                       }
-                       tmp = 0;
-                       while (map[obj_to_move[i]][tmp] == "undefined")
-                       {
-                           map[obj_to_move[i]][tmp] = game.add.sprite(obj_to_move[i] * width, tmp * height, texture_group.getRandom().key);
-                           map[obj_to_move[i]][tmp].scale.setTo(0.1, 0.1);
-                           map[obj_to_move[i]][tmp].inputEnabled = true;
-                           tmp++;
-                       }
-                       obj_to_move.splice(i, 3);
-                       i -= 3;
-                   }
-                   i += 3;
-               }
-               if (obj_to_move.length == 0)
-               {
-                   if (chain() == 1)
-                   {
-                       is_moving = "fall";
-                   }
-                   else
-                   {
+                   generate_new_obj();
+                   if (chain() == 0)
                        is_moving ="false";
-                   }
-                   return ;
+                   else
+                       is_moving = "fall";
                }
-
            }
-          console.log(is_moving); 
         }
 
         function render(){
